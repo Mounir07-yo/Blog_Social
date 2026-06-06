@@ -1,0 +1,77 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+/* Styles personnalisés pour le blog */
+body {
+    font-family: 'Figtree', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.blog-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.post-card {
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
+.post-meta {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.navbar-brand {
+    font-size: 1.5rem !important;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.card {
+    border-radius: 12px;
+    border: none;
+}
+
+.form-control {
+    border-radius: 8px;
+}
+
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease forwards;
+}
