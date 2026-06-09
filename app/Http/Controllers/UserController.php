@@ -73,4 +73,33 @@ class UserController extends Controller
 
         return view('users.search', compact('users', 'query'));
     }
+
+    public function deleteAccount(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string',
+            'confirmation' => 'required|in:DELETE',
+        ]);
+
+        $user = Auth::user();
+
+        // Vérifier le mot de passe
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Mot de passe incorrect.']);
+        }
+
+        // Empêcher la suppression d'un compte admin (sécurité)
+        if ($user->isAdmin()) {
+            return back()->withErrors(['error' => 'Les comptes administrateurs ne peuvent pas être supprimés via cette interface.']);
+        }
+
+        $userName = $user->name;
+
+        // Déconnexion et suppression
+        Auth::logout();
+        $user->delete();
+
+        return redirect()->route('welcome')
+                        ->with('success', "Compte de {$userName} supprimé avec succès.");
+    }
 }

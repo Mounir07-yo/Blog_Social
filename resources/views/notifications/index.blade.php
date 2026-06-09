@@ -32,7 +32,7 @@
                                             {{ $notification->data['message'] }}
                                         </p>
                                         <small class="text-muted">
-                                            {{ $notification->created_at->diffForHumans() }}
+                                            {{ $notification->created_at->setTimezone('Europe/Paris')->diffForHumans() }}
                                         </small>
                                     </div>
                                     

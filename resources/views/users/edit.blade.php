@@ -162,16 +162,71 @@
 
         <div class="card shadow-sm mt-4">
             <div class="card-header bg-warning">
-                <h5 class="mb-0">💡 Conseils</h5>
+                <h5 class="mb-0">
+                    <i class="fas fa-lightbulb me-2"></i>Conseils
+                </h5>
             </div>
             <div class="card-body">
                 <ul class="small mb-0">
-                    <li>Une bio attrayante encourage les gens à vous suivre</li>
-                    <li>Ajoutez votre localisation pour vous connecter localement</li>
-                    <li>Un avatar personnalisé rend votre profil unique</li>
-                    <li>Partagez votre site web pour plus de visibilité</li>
+                    <li>Une bio professionnelle renforce votre crédibilité</li>
+                    <li>Ajoutez votre localisation pour le networking professionnel</li>
+                    <li>Un avatar de qualité améliore votre image de marque</li>
+                    <li>Partagez votre site web ou portfolio professionnel</li>
                 </ul>
             </div>
+        </div>
+
+        <!-- Zone dangereuse -->
+        <div class="card shadow-sm mt-4 border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Zone dangereuse
+                </h5>
+            </div>
+            <div class="card-body">
+                <h6>Supprimer mon compte</h6>
+                <p class="text-muted small mb-3">
+                    Cette action est irréversible. Toutes vos données, articles et commentaires seront définitivement supprimés.
+                </p>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteAccount()">
+                    <i class="fas fa-trash me-2"></i>Supprimer définitivement mon compte
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirmer la suppression</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ route('profile.delete') }}">
+                @csrf
+                @method('DELETE')
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        <strong>Attention !</strong> Cette action est irréversible.
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="delete_password" class="form-label">Mot de passe actuel</label>
+                        <input type="password" class="form-control" id="delete_password" name="password" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirmation" class="form-label">Tapez "DELETE" pour confirmer</label>
+                        <input type="text" class="form-control" id="confirmation" name="confirmation" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-danger">Supprimer définitivement</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -224,6 +279,50 @@ document.addEventListener('DOMContentLoaded', function() {
     bioTextarea.addEventListener('input', updateCharCount);
     updateCharCount(); // Initial call
 });
+</script>
+@endpush
+
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirmer la suppression</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ route('profile.delete') }}">
+                @csrf
+                @method('DELETE')
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        <strong>Attention !</strong> Cette action est irréversible.
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="delete_password" class="form-label">Mot de passe actuel</label>
+                        <input type="password" class="form-control" id="delete_password" name="password" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirmation" class="form-label">Tapez "DELETE" pour confirmer</label>
+                        <input type="text" class="form-control" id="confirmation" name="confirmation" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-danger">Supprimer définitivement</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+function confirmDeleteAccount() {
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
+    deleteModal.show();
+}
 </script>
 @endpush
 @endsection

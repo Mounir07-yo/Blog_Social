@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Inscription')
-@section('header', 'Inscription')
+@section('header', 'Rejoindre AREX')
 @section('subtitle', 'Créez votre compte')
 
 @section('content')

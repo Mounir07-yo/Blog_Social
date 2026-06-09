@@ -92,4 +92,15 @@ class Post extends Model
     {
         return 'slug';
     }
+
+    // Méthodes pour formater les dates avec le bon fuseau horaire
+    public function getCreatedAtLocalAttribute()
+    {
+        return $this->created_at->setTimezone(config('app.timezone'));
+    }
+
+    public function getUpdatedAtLocalAttribute()
+    {
+        return $this->updated_at->setTimezone(config('app.timezone'));
+    }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Connexion')
-@section('header', 'Connexion')
+@section('header', 'Connexion à AREX')
 @section('subtitle', 'Accédez à votre compte')
 
 @section('content')
@@ -47,10 +47,20 @@
                         <label class="form-check-label" for="remember">
                             Se souvenir de moi
                         </label>
+                        <div class="form-text">
+                            Cochez cette case pour rester connecté même après avoir fermé votre navigateur (2 semaines maximum).
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div></div>
+                        <a href="{{ route('password.request') }}" class="text-decoration-none text-muted small">
+                            Mot de passe oublié ?
+                        </a>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
-                        Se connecter
+                        <i class="fas fa-sign-in-alt me-2"></i>Se connecter
                     </button>
                 </form>
 
@@ -62,20 +72,6 @@
                         Inscrivez-vous ici
                     </a>
                 </p>
-            </div>
-        </div>
-
-        <!-- Compte de test -->
-        <div class="card mt-4 border-info">
-            <div class="card-header bg-info text-white">
-                <h6 class="mb-0">🧪 Compte de test</h6>
-            </div>
-            <div class="card-body">
-                <p class="small mb-2">Utilisez ces identifiants pour tester :</p>
-                <ul class="small mb-0">
-                    <li><strong>Email :</strong> admin@blog.com</li>
-                    <li><strong>Mot de passe :</strong> password</li>
-                </ul>
             </div>
         </div>
     </div>

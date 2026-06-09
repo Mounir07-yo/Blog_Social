@@ -19,7 +19,7 @@
                                 {{ $post->user->name }}
                             </a>
                         </h6>
-                        <small class="text-muted">{{ $post->published_at ? $post->published_at->format('d/m/Y à H:i') : 'Brouillon' }}</small>
+                        <small class="text-muted">{{ $post->published_at ? $post->published_at->setTimezone('Europe/Paris')->format('d/m/Y à H:i') : 'Brouillon' }}</small>
                     </div>
                     @auth
                         @if(Auth::id() === $post->user_id)
@@ -89,9 +89,15 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex gap-4">
                         @auth
-                            <button class="btn btn-link p-0 like-btn" data-type="post" data-id="{{ $post->id }}">
+                            <button class="btn btn-link p-0 like-btn" data-type="post" data-id="{{ $post->slug }}">
                                 <i class="bi bi-heart{{ $post->isLikedBy(Auth::user()) ? '-fill text-danger' : '' }}" style="font-size: 1.5rem;"></i>
+                                <span class="likes-count">{{ $post->likesCount() }}</span>
                             </button>
+                        @else
+                            <span class="text-muted">
+                                <i class="bi bi-heart" style="font-size: 1.5rem;"></i>
+                                <span>{{ $post->likesCount() }}</span>
+                            </span>
                         @endauth
                         <div>
                             <i class="bi bi-chat" style="font-size: 1.5rem;"></i>
@@ -146,7 +152,7 @@
                                                 {{ $comment->user->name }}
                                             </a>
                                         </strong>
-                                        <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                                        <small class="text-muted">{{ $comment->created_at->setTimezone('Europe/Paris')->diffForHumans() }}</small>
                                     </div>
                                     <p class="mb-0 mt-1">{{ $comment->content }}</p>
                                 </div>
@@ -213,7 +219,7 @@
                                                                         {{ $reply->user->name }}
                                                                     </a>
                                                                 </strong>
-                                                                <small class="text-muted">{{ $reply->created_at->diffForHumans() }}</small>
+                                                                <small class="text-muted">{{ $reply->created_at->setTimezone('Europe/Paris')->diffForHumans() }}</small>
                                                             </div>
                                                             <p class="mb-0 mt-1">{{ $reply->content }}</p>
                                                         </div>
@@ -270,7 +276,7 @@
                 @if($post->user->bio)
                     <p class="text-muted small">{{ $post->user->bio }}</p>
                 @endif
-                <p class="text-muted small">Membre depuis {{ $post->user->created_at->format('M Y') }}</p>
+                <p class="text-muted small">Membre depuis {{ $post->user->created_at->setTimezone('Europe/Paris')->format('M Y') }}</p>
                 
                 <div class="row text-center mb-3">
                     <div class="col-4">
@@ -294,7 +300,7 @@
                         </button>
                     @else
                         <a href="{{ route('posts.create') }}" class="btn btn-success btn-sm">
-                            ✏️ Nouvel article
+                            <i class="fas fa-plus me-2"></i>Nouveau contenu
                         </a>
                     @endif
                 @endauth
@@ -319,9 +325,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     if (data.isLiked) {
@@ -332,7 +345,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (countSpan) countSpan.textContent = data.likesCount;
                 }
             })
-            .catch(error => console.error('Erreur:', error));
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors du traitement du like. Veuillez réessayer.');
+            });
         });
     });
 

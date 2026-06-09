@@ -1,30 +1,31 @@
 @extends('layouts.app')
 
 @section('title', 'Accueil')
-@section('header', '🚀 Bienvenue sur Mon Blog')
-@section('subtitle', 'Votre plateforme de partage d\'idées et de connaissances')
+@section('header', 'AREX - Réseau Social Professionnel')
+@section('subtitle', 'Votre solution complète pour le partage de contenu et la collaboration')
 
 @section('content')
 <div class="row">
     <div class="col-lg-8">
         <div class="card shadow-sm mb-4">
             <div class="card-body text-center">
-                <h2 class="h4 text-primary mb-3">Découvrez notre blog</h2>
+                <h2 class="h4 text-primary mb-3">Découvrez notre plateforme</h2>
                 <p class="lead">
-                    Bienvenue sur notre plateforme de blog ! Ici, vous pouvez découvrir des articles 
-                    passionnants, partager vos idées et rejoindre une communauté dynamique.
+                    Bienvenue sur AREX ! Un réseau social professionnel pour la création, 
+                    le partage et la gestion de contenu avec des fonctionnalités 
+                    collaboratives avancées.
                 </p>
                 <div class="d-flex justify-content-center gap-3 mt-4">
                     <a href="{{ route('posts.index') }}" class="btn btn-primary btn-lg">
-                        📚 Voir les articles
+                        <i class="fas fa-newspaper me-2"></i>Explorer les articles
                     </a>
                     @guest
                         <a href="{{ route('register') }}" class="btn btn-outline-primary btn-lg">
-                            ✏️ Rejoignez-nous
+                            <i class="fas fa-user-plus me-2"></i>Créer un compte
                         </a>
                     @else
                         <a href="{{ route('posts.create') }}" class="btn btn-success btn-lg">
-                            ✏️ Écrire un article
+                            <i class="fas fa-plus-circle me-2"></i>Nouveau contenu
                         </a>
                     @endguest
                 </div>
@@ -36,10 +37,12 @@
             <div class="col-md-6">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="display-4 mb-3">📝</div>
-                        <h5>Écrivez facilement</h5>
+                        <div class="mb-3">
+                            <i class="fas fa-edit text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5>Édition Intuitive</h5>
                         <p class="text-muted">
-                            Interface simple et intuitive pour rédiger vos articles en quelques clics.
+                            Interface moderne et ergonomique pour créer du contenu professionnel rapidement.
                         </p>
                     </div>
                 </div>
@@ -47,10 +50,12 @@
             <div class="col-md-6">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="display-4 mb-3">👥</div>
-                        <h5>Communauté active</h5>
+                        <div class="mb-3">
+                            <i class="fas fa-users text-success" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5>Collaboration Avancée</h5>
                         <p class="text-muted">
-                            Rejoignez une communauté de passionnés et partagez vos connaissances.
+                            Outils de collaboration en temps réel avec système de notifications intégré.
                         </p>
                     </div>
                 </div>
@@ -58,10 +63,12 @@
             <div class="col-md-6">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="display-4 mb-3">🎨</div>
-                        <h5>Design moderne</h5>
+                        <div class="mb-3">
+                            <i class="fas fa-palette text-info" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5>Design Professionnel</h5>
                         <p class="text-muted">
-                            Interface élégante et responsive qui s'adapte à tous vos appareils.
+                            Interface responsive et élégante adaptée à tous les appareils professionnels.
                         </p>
                     </div>
                 </div>
@@ -69,10 +76,12 @@
             <div class="col-md-6">
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body text-center">
-                        <div class="display-4 mb-3">⚡</div>
-                        <h5>Rapide et sécurisé</h5>
+                        <div class="mb-3">
+                            <i class="fas fa-shield-alt text-warning" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5>Sécurité & Performance</h5>
                         <p class="text-muted">
-                            Plateforme optimisée construite avec les dernières technologies web.
+                            Infrastructure sécurisée avec optimisations avancées et sauvegarde automatique.
                         </p>
                     </div>
                 </div>
@@ -85,28 +94,32 @@
         @auth
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">👋 Bonjour {{ Auth::user()->name }} !</h5>
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-check me-2"></i>Bonjour {{ Auth::user()->name }}
+                    </h5>
                 </div>
                 <div class="card-body">
-                    <p>Prêt à partager vos idées ?</p>
+                    <p>Prêt à créer du contenu professionnel ?</p>
                     <a href="{{ route('posts.create') }}" class="btn btn-success w-100">
-                        Écrire un nouvel article
+                        <i class="fas fa-plus me-2"></i>Créer un nouveau contenu
                     </a>
                 </div>
             </div>
         @else
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">🚀 Commencez maintenant</h5>
+                    <h5 class="mb-0">
+                        <i class="fas fa-rocket me-2"></i>Démarrer maintenant
+                    </h5>
                 </div>
                 <div class="card-body">
-                    <p>Créez votre compte pour commencer à publier vos articles !</p>
+                    <p>Rejoignez notre plateforme professionnelle dès aujourd'hui !</p>
                     <div class="d-grid gap-2">
                         <a href="{{ route('register') }}" class="btn btn-primary">
-                            Créer un compte
+                            <i class="fas fa-user-plus me-2"></i>Créer un compte
                         </a>
                         <a href="{{ route('login') }}" class="btn btn-outline-primary">
-                            Se connecter
+                            <i class="fas fa-sign-in-alt me-2"></i>Se connecter
                         </a>
                     </div>
                 </div>
@@ -114,18 +127,14 @@
         @endauth
 
         <div class="card shadow-sm">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0">🧪 Test rapide</h5>
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle me-2"></i>À propos
+                </h5>
             </div>
             <div class="card-body">
-                <p class="small">Pour tester immédiatement :</p>
-                <ul class="small mb-2">
-                    <li><strong>Email :</strong> admin@blog.com</li>
-                    <li><strong>Mot de passe :</strong> password</li>
-                </ul>
-                <a href="{{ route('login') }}" class="btn btn-info btn-sm w-100">
-                    Connexion test
-                </a>
+                <p class="small mb-2">AREX - Réseau Social Professionnel</p>
+                <p class="small mb-0">Partagez vos idées, collaborez et développez votre réseau professionnel.</p>
             </div>
         </div>
     </div>

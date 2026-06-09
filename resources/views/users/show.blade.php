@@ -52,23 +52,33 @@
                 @endif
 
                 <p class="text-muted small">
-                    <i class="bi bi-calendar"></i> Membre depuis {{ $user->created_at->format('M Y') }}
+                    <i class="bi bi-calendar"></i> Membre depuis {{ $user->created_at->setTimezone('Europe/Paris')->format('M Y') }}
                 </p>
 
                 @auth
                     @if(Auth::id() !== $user->id)
-                        <button class="btn btn-primary follow-btn" data-user-id="{{ $user->id }}">
-                            {{ Auth::user()->isFollowing($user) ? 'Ne plus suivre' : 'Suivre' }}
-                        </button>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary follow-btn" data-user-id="{{ $user->id }}">
+                                {{ Auth::user()->isFollowing($user) ? 'Ne plus suivre' : 'Suivre' }}
+                            </button>
+                            <a href="{{ route('messages.show', $user) }}" class="btn btn-outline-primary">
+                                <i class="fas fa-envelope me-2"></i>Envoyer un message
+                            </a>
+                        </div>
                     @else
                         <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary">
                             Modifier le profil
                         </a>
                     @endif
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-primary">
-                        Suivre {{ $user->name }}
-                    </a>
+                    <div class="d-grid gap-2">
+                        <a href="{{ route('login') }}" class="btn btn-primary">
+                            Suivre {{ $user->name }}
+                        </a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope me-2"></i>Envoyer un message
+                        </a>
+                    </div>
                 @endauth
             </div>
         </div>
@@ -95,7 +105,7 @@
                         
                         <div class="post-meta mb-3">
                             <small class="text-muted">
-                                <i class="bi bi-calendar"></i> {{ $post->published_at->diffForHumans() }}
+                                <i class="bi bi-calendar"></i> {{ $post->published_at->setTimezone('Europe/Paris')->diffForHumans() }}
                             </small>
                         </div>
                         

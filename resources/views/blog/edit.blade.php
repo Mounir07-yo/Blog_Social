@@ -88,7 +88,7 @@
                         </div>
                         <div class="form-text">
                             @if($post->published_at)
-                                Publié le {{ $post->published_at->format('d/m/Y à H:i') }}
+                                Publié le {{ $post->published_at->setTimezone('Europe/Paris')->format('d/m/Y à H:i') }}
                             @else
                                 Si vous cochez cette case, l'article sera publié maintenant.
                             @endif
@@ -125,20 +125,22 @@
                 </p>
                 <small class="text-muted">
                     <i class="bi bi-person"></i> {{ $post->user->name }}<br>
-                    <i class="bi bi-calendar"></i> {{ $post->updated_at->format('d/m/Y') }}
+                    <i class="bi bi-calendar"></i> {{ $post->updated_at->setTimezone('Europe/Paris')->format('d/m/Y') }}
                 </small>
             </div>
         </div>
 
         <div class="card shadow-sm mt-4">
             <div class="card-header bg-warning">
-                <h6 class="mb-0">📊 Statistiques</h6>
+                <h6 class="mb-0">
+                    <i class="fas fa-chart-bar me-2"></i>Statistiques
+                </h6>
             </div>
             <div class="card-body">
                 <ul class="small mb-0">
-                    <li>Créé : {{ $post->created_at->format('d/m/Y H:i') }}</li>
-                    <li>Modifié : {{ $post->updated_at->format('d/m/Y H:i') }}</li>
-                    <li>Statut : {{ $post->is_published ? '✅ Publié' : '📝 Brouillon' }}</li>
+                    <li>Créé : {{ $post->created_at->setTimezone('Europe/Paris')->format('d/m/Y H:i') }}</li>
+                    <li>Modifié : {{ $post->updated_at->setTimezone('Europe/Paris')->format('d/m/Y H:i') }}</li>
+                    <li>Statut : {{ $post->is_published ? 'Publié' : 'Brouillon' }}</li>
                     <li>Slug : <code>{{ $post->slug }}</code></li>
                 </ul>
             </div>

@@ -21,7 +21,7 @@
                                         {{ $post->user->name }}
                                     </a>
                                 </h6>
-                                <small class="text-muted">{{ $post->published_at->diffForHumans() }}</small>
+                                <small class="text-muted">{{ $post->published_at->setTimezone('Europe/Paris')->diffForHumans() }}</small>
                             </div>
                             @auth
                                 @if(Auth::id() === $post->user_id)
@@ -98,10 +98,16 @@
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <div class="d-flex gap-3">
                                 @auth
-                                    <button class="btn btn-link p-0 like-btn" data-type="post" data-id="{{ $post->id }}">
+                                    <button class="btn btn-link p-0 like-btn" data-type="post" data-id="{{ $post->slug }}">
                                         <i class="bi bi-heart{{ $post->isLikedBy(Auth::user()) ? '-fill text-danger' : '' }}"></i>
                                         <span class="likes-count">{{ $post->likesCount() }}</span>
                                     </button>
+                                    
+                                    @if($post->user_id !== Auth::id())
+                                    <button class="btn btn-link p-0 text-warning" onclick="reportContent('post', {{ $post->id }})" title="Signaler">
+                                        <i class="bi bi-flag"></i>
+                                    </button>
+                                    @endif
                                 @else
                                     <span class="text-muted">
                                         <i class="bi bi-heart"></i> {{ $post->likesCount() }}
@@ -167,7 +173,7 @@
                         </div>
                     </div>
                     <a href="{{ route('posts.create') }}" class="btn btn-primary btn-sm mt-3 w-100">
-                        ✏️ Nouvel article
+                        <i class="fas fa-plus me-2"></i>Nouveau contenu
                     </a>
                 </div>
             </div>
@@ -208,9 +214,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     if (data.isLiked) {
@@ -221,7 +234,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     countSpan.textContent = data.likesCount;
                 }
             })
-            .catch(error => console.error('Erreur:', error));
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors du traitement du like. Veuillez réessayer.');
+            });
         });
     });
 });

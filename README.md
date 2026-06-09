@@ -1,148 +1,218 @@
-# 🚀 Mon Blog Laravel
+# 🌟 AREX - Réseau Social Professionnel
 
-Un blog moderne et élégant créé avec Laravel 12. Partagez vos idées et découvrez celles des autres !
+**AREX** est un réseau social moderne et professionnel construit avec Laravel, offrant une expérience utilisateur complète avec des fonctionnalités avancées de collaboration et de partage de contenu.
+
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
 ## ✨ Fonctionnalités
 
-- 📝 **Création d'articles** - Interface intuitive pour rédiger vos articles
-- 👥 **Système d'authentification** - Inscription, connexion et gestion des utilisateurs
-- 🎨 **Design responsive** - Interface moderne avec Bootstrap 5
-- 📱 **Mobile-friendly** - Optimisé pour tous les appareils
-- 🔒 **Sécurisé** - Protection CSRF et authentification robuste
-- ⚡ **Rapide** - Base de données SQLite pour des performances optimales
+### 🔐 **Authentification & Sécurité**
+- ✅ Inscription/Connexion sécurisée
+- ✅ Réinitialisation de mot de passe par email
+- ✅ Option "Se souvenir de moi"
+- ✅ Tokens de sécurité cryptés
+- ✅ Protection CSRF
 
-## 🚀 Accès rapide
+### 📱 **Réseau Social**
+- ✅ **Posts** avec texte, images et médias multiples
+- ✅ **Système de likes** sur posts et commentaires
+- ✅ **Commentaires** avec réponses imbriquées
+- ✅ **Suivi d'utilisateurs** (Follow/Unfollow)
+- ✅ **Profils utilisateurs** personnalisables
+- ✅ **Fil d'actualité** personnalisé
 
-**Votre blog est accessible à l'adresse :** [http://127.0.0.1:8000](http://127.0.0.1:8000)
+### 💬 **Messagerie**
+- ✅ **Messages privés** entre utilisateurs
+- ✅ **Interface temps réel** avec AJAX
+- ✅ **Compteurs de messages non lus**
+- ✅ **Historique des conversations**
+- ✅ **Statuts de lecture**
 
-### 🧪 Compte de test
+### 🔔 **Notifications**
+- ✅ **Notifications en temps réel**
+- ✅ **Système de badges** avec compteurs
+- ✅ **Notifications par email**
+- ✅ **Interface dropdown** moderne
 
-Pour tester immédiatement toutes les fonctionnalités :
+### 🛡️ **Modération & Signalements**
+- ✅ **Système de signalement** complet
+- ✅ **Interface administrateur** dédiée
+- ✅ **Gestion des utilisateurs** (bloquer/supprimer)
+- ✅ **Notifications automatiques** aux admins
+- ✅ **Historique des signalements**
 
-- **Email :** admin@blog.com
-- **Mot de passe :** password
+### 🌐 **Interface & UX**
+- ✅ **Design responsive** (mobile-friendly)
+- ✅ **Interface Bootstrap 5** moderne
+- ✅ **Icons Font Awesome & Bootstrap Icons**
+- ✅ **Animations CSS** fluides
+- ✅ **Dark/Light mode** compatible
 
-## 📋 Prérequis
+## 🚀 Installation Rapide
 
-- PHP 8.2 ou plus récent
-- Composer
-- SQLite (inclus avec PHP)
+### Prérequis
+- **PHP 8.2+**
+- **Composer**
+- **MySQL 8.0+**
+- **Node.js** (optionnel)
 
-## ⚙️ Installation
-
-Le projet est déjà configuré ! Si vous devez le réinstaller :
-
+### 1. Clonage et Installation
 ```bash
-# 1. Installer les dépendances
+git clone https://github.com/VOTRE-USERNAME/AREX.git
+cd AREX
 composer install
+npm install && npm run build  # Optionnel
+```
 
-# 2. Configurer l'environnement
+### 2. Configuration
+```bash
 cp .env.example .env
 php artisan key:generate
-
-# 3. Créer la base de données
-php artisan migrate
-
-# 4. Ajouter des données de test
-php artisan db:seed
-
-# 5. Lancer le serveur
-php artisan serve
 ```
 
-## 🎯 Utilisation
+Modifiez `.env` avec vos paramètres :
+```env
+APP_NAME=AREX
+APP_URL=http://127.0.0.1:8000
 
-### Pour les visiteurs
-1. Visitez [http://127.0.0.1:8000](http://127.0.0.1:8000)
-2. Parcourez les articles sur `/blog`
-3. Inscrivez-vous pour publier vos propres articles
-
-### Pour les auteurs
-1. Connectez-vous avec votre compte
-2. Cliquez sur "Écrire un article"
-3. Rédigez votre contenu
-4. Publiez ou sauvegardez en brouillon
-
-## 📁 Structure du projet
-
-```
-├── app/
-│   ├── Http/Controllers/
-│   │   ├── AuthController.php     # Authentification
-│   │   └── PostController.php     # Gestion des articles
-│   └── Models/
-│       ├── User.php               # Modèle utilisateur
-│       └── Post.php               # Modèle article
-├── database/
-│   ├── migrations/                # Structure de la base
-│   └── seeders/                   # Données de test
-├── resources/views/
-│   ├── auth/                      # Pages d'authentification
-│   ├── blog/                      # Pages du blog
-│   └── layouts/                   # Templates
-└── routes/
-    └── web.php                    # Routes de l'application
+DB_CONNECTION=mysql
+DB_DATABASE=arex_db
+DB_USERNAME=root
+DB_PASSWORD=
 ```
 
-## 🎨 Fonctionnalités du blog
-
-### Articles
-- ✍️ Création avec titre, résumé et contenu
-- 🖼️ Image de couverture (URL)
-- 📝 Mode brouillon ou publication directe
-- ✏️ Modification et suppression par l'auteur
-- 🔗 URLs conviviales (slugs)
-
-### Authentification
-- 📧 Inscription avec email et mot de passe
-- 🔐 Connexion sécurisée
-- 👤 Gestion de profil utilisateur
-- 🔒 Protection des actions d'écriture
-
-### Interface
-- 🎨 Design moderne avec Bootstrap 5
-- 📱 Responsive sur mobile et desktop
-- 🌈 Animations CSS élégantes
-- 🔍 Navigation intuitive
-
-## 🛠️ Développement
-
-### Commandes utiles
-
+### 3. Base de Données
 ```bash
-# Lancer le serveur de développement
-php artisan serve
+# Méthode automatique
+php create-tables.php
 
-# Créer un nouvel article via tinker
-php artisan tinker
-
-# Réinitialiser la base de données
-php artisan migrate:fresh --seed
-
-# Voir les routes
-php artisan route:list
+# Ou méthode Laravel classique
+php artisan migrate
+php artisan db:seed
 ```
 
-### Ajouter des fonctionnalités
+### 4. Démarrage
+```bash
+php artisan serve
+```
 
-Le code est structuré pour être facilement extensible :
+Accédez à : **http://127.0.0.1:8000**
 
-- **Nouveaux modèles** : `php artisan make:model NomModele -mcr`
-- **Nouvelles vues** : Ajoutez dans `resources/views/`
-- **Nouveaux contrôleurs** : `php artisan make:controller NomController`
+## 👤 Comptes de Test
 
-## 🎉 Prêt à bloguer !
+| Role | Email | Mot de passe |
+|------|-------|-------------|
+| **Admin** | admin@blog.com | password |
+| **Utilisateur** | Créez via inscription | - |
 
-Votre blog est maintenant opérationnel. Visitez [http://127.0.0.1:8000](http://127.0.0.1:8000) et commencez à partager vos idées !
+## 📧 Configuration Email
 
-### Prochaines étapes suggérées :
+Pour la réinitialisation de mot de passe, configurez l'email dans `.env` :
 
-1. 🎨 Personnalisez le design dans `resources/views/layouts/app.blade.php`
-2. 📝 Ajoutez des catégories aux articles
-3. 💬 Implémentez un système de commentaires
-4. 🔍 Ajoutez une fonction de recherche
-5. 📊 Créez un tableau de bord administrateur
+```env
+# Gmail (recommandé)
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=votre-email@gmail.com
+MAIL_PASSWORD=votre-mot-de-passe-app
+MAIL_ENCRYPTION=tls
+```
+
+📖 Guide complet : `CONFIGURATION-EMAIL.md`
+
+## 🌍 Hébergement
+
+AREX est prêt pour le déploiement sur plusieurs plateformes :
+
+### 🚂 **Railway** (Gratuit - Recommandé)
+```bash
+.\deploy-to-railway.bat
+```
+- ✅ **500h/mois gratuit**
+- ✅ **MySQL inclus**
+- ✅ **HTTPS automatique**
+
+### ▲ **Vercel + PlanetScale** (Gratuit)
+- Performance maximale
+- Base de données serverless
+
+### 🌊 **DigitalOcean** ($5/mois)
+- Qualité professionnelle
+- Scaling automatique
+
+📖 Guide complet : `GUIDE-HEBERGEMENT-2024.md`
+
+## 🛠️ Scripts Utiles
+
+| Script | Description |
+|--------|-------------|
+| `quick-test-reset.bat` | Test mot de passe oublié |
+| `check-git-status.bat` | Vérifier état Git |
+| `push-to-github.bat` | Push automatique GitHub |
+| `deploy-to-railway.bat` | Déploiement Railway |
+| `fix-blog-simple.bat` | Réparation base de données |
+
+## 📁 Structure du Projet
+
+```
+AREX/
+├── app/
+│   ├── Http/Controllers/     # Contrôleurs
+│   ├── Models/              # Modèles Eloquent
+│   ├── Mail/                # Templates email
+│   └── Notifications/       # Notifications
+├── resources/views/         # Templates Blade
+├── database/migrations/     # Migrations DB
+├── public/                  # Assets publics
+└── routes/web.php          # Routes web
+```
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! 
+
+1. **Fork** le projet
+2. **Créez** une branche feature (`git checkout -b feature/nouvelle-fonctionnalité`)
+3. **Commitez** vos changements (`git commit -m 'Ajout nouvelle fonctionnalité'`)
+4. **Push** vers la branche (`git push origin feature/nouvelle-fonctionnalité`)
+5. **Créez** une Pull Request
+
+## 📝 Changelog
+
+### Version 2.0.0 (Actuelle)
+- 🎨 **Rebranding complet** → AREX
+- ✨ **Système de messagerie** privée
+- 🔐 **Réinitialisation mot de passe** sécurisée
+- 🛡️ **Système de signalements** avancé
+- 🔔 **Notifications temps réel**
+- 🌍 **Prêt pour production**
+
+### Version 1.0.0
+- 📝 Blog social basique
+- 👥 Système d'utilisateurs
+- 💬 Commentaires et likes
+- 🎨 Interface Bootstrap
+
+## 📞 Support
+
+- 📧 **Email** : votre-email@domaine.com
+- 📖 **Documentation** : `docs/`
+- 🐛 **Bugs** : [GitHub Issues](https://github.com/VOTRE-USERNAME/AREX/issues)
+
+## 📄 Licence
+
+Ce projet est sous licence **MIT**. Voir le fichier `LICENSE` pour plus de détails.
 
 ---
 
-**Créé avec ❤️ et Laravel** | [Documentation Laravel](https://laravel.com/docs)
+<div align="center">
+
+**🌟 AREX - Connecter • Partager • Grandir**
+
+Fait avec ❤️ et [Laravel](https://laravel.com)
+
+</div>

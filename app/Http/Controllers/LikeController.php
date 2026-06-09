@@ -28,7 +28,8 @@ class LikeController extends Controller
             }
         }
 
-        if (request()->ajax()) {
+        // Toujours retourner du JSON pour les requêtes AJAX ou avec Accept: application/json
+        if (request()->ajax() || request()->wantsJson() || request()->expectsJson()) {
             return response()->json([
                 'success' => true,
                 'isLiked' => $isLiked,
@@ -51,7 +52,8 @@ class LikeController extends Controller
             $isLiked = true;
         }
 
-        if (request()->ajax()) {
+        // Toujours retourner du JSON pour les requêtes AJAX ou avec Accept: application/json
+        if (request()->ajax() || request()->wantsJson() || request()->expectsJson()) {
             return response()->json([
                 'success' => true,
                 'isLiked' => $isLiked,

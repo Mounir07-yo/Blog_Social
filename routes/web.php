@@ -9,6 +9,10 @@ use App\Http\Controllers\FollowController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\PasswordResetController;
+
+use App\Http\Controllers\MessageController;
 
 // Page d'accueil
 Route::get('/', function () {
@@ -26,6 +30,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Routes pour la réinitialisation de mot de passe
+Route::get('/forgot-password', [PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
 
 // Routes pour le blog
 Route::get('/blog', [PostController::class, 'index'])->name('posts.index');
@@ -80,4 +90,30 @@ Route::middleware('auth')->group(function () {
     Route::post('/upload/image', [ImageUploadController::class, 'upload'])->name('upload.image');
     Route::post('/upload/images', [ImageUploadController::class, 'uploadMultiple'])->name('upload.images');
     Route::delete('/upload/image', [ImageUploadController::class, 'delete'])->name('upload.delete');
+});
+
+// Routes pour les signalements
+Route::middleware('auth')->group(function () {
+    Route::post('/report', [ReportController::class, 'store'])->name('report.store');
+});
+
+// Route pour la suppression de compte
+Route::middleware('auth')->group(function () {
+    Route::delete('/profile/delete', [UserController::class, 'deleteAccount'])->name('profile.delete');
+});
+
+// Routes d'administration (réservées aux admins)
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
+    Route::patch('/reports/{report}', [ReportController::class, 'update'])->name('reports.update');
+    Route::delete('/reports/{report}/delete-user', [ReportController::class, 'deleteReportedUser'])->name('reports.delete-user');
+});
+
+// Routes de messagerie
+Route::middleware('auth')->group(function () {
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{user}', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/api/messages/unread-count', [MessageController::class, 'getUnreadCount'])->name('messages.unread-count');
 });
