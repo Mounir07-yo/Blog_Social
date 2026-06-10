@@ -10,14 +10,6 @@ RUN apt-get update && apt-get install -y git unzip && rm -rf /var/lib/apt/lists/
 # Copy composer from official image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# Copy Node from official image
-COPY --from=node /usr/local/bin/node /usr/local/bin/node
-COPY --from=node /usr/local/bin/npm /usr/local/bin/npm
-COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
-
-# Create symlink for npm
-RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
-
 # Install required PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
 
