@@ -1,8 +1,12 @@
+FROM composer:2.7 as composer
 FROM dunglas/frankenphp:php8.2.31-bookworm
 
 WORKDIR /app
 
-# Install required PHP extensions for Railway MySQL
+# Copy composer from official image
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# Install required PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
 
 # Copy application files
