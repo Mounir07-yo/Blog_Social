@@ -1,0 +1,24 @@
+# Configuration Nixpacks pour Railway
+[phases.install]
+dependsOn = []
+cmds = ["composer install --optimize-autoloader --no-dev"]
+
+[phases.build] 
+dependsOn = ["install"]
+cmds = [
+  "php artisan config:clear",
+  "php artisan route:clear", 
+  "php artisan view:clear"
+]
+
+[start]
+cmd = "php artisan migrate --force && php artisan db:seed --force && php artisan storage:link && php artisan serve --host=0.0.0.0 --port=$PORT"
+
+[variables]
+APP_ENV = "production"
+APP_DEBUG = "false"
+LOG_CHANNEL = "stack"
+LOG_LEVEL = "error"
+CACHE_STORE = "database"
+SESSION_DRIVER = "database"
+QUEUE_CONNECTION = "database"
