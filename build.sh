@@ -1,20 +1,16 @@
 #!/bin/bash
-set -e
 
-echo "🚀 Préparation du projet pour la production..."
+# Script de build pour Railway avec installation explicite MySQL
+echo "Installing PHP MySQL extensions..."
 
-# Installation des dépendances
+# Installation des extensions PHP via apt (si disponible)
+if command -v apt-get &> /dev/null; then
+    apt-get update
+    apt-get install -y php8.2-mysql php8.2-pdo-mysql
+fi
+
+# Installation Composer
+echo "Running Composer install..."
 composer install --no-dev --optimize-autoloader
 
-# Optimisation de Laravel
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-
-# Créer le lien de stockage
-php artisan storage:link
-
-# Optimisation des fichiers
-php artisan optimize
-
-echo "✅ Projet prêt pour la production !"
+echo "Build completed successfully!"
