@@ -2,8 +2,8 @@ FROM dunglas/frankenphp:php8.2.31-bookworm
 
 WORKDIR /app
 
-# Install required PHP extensions including pdo_mysql
-RUN install-php-extensions pdo_mysql curl mbstring openssl
+# Install required PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql
 
 # Copy application files
 COPY . .
