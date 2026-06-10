@@ -2,7 +2,7 @@ FROM dunglas/frankenphp:php8.2.31-bookworm
 
 WORKDIR /app
 
-# Install required PHP extensions
+# Install required PHP extensions for Railway MySQL
 RUN docker-php-ext-install pdo pdo_mysql
 
 # Copy application files
