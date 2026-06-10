@@ -3,6 +3,9 @@ FROM dunglas/frankenphp:php8.2.31-bookworm
 
 WORKDIR /app
 
+# Install git and other dependencies
+RUN apt-get update && apt-get install -y git unzip && rm -rf /var/lib/apt/lists/*
+
 # Copy composer from official image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
@@ -16,7 +19,7 @@ COPY . .
 RUN cp config/database-railway.php config/database.php
 
 # Install composer dependencies
-RUN composer install --optimize-autoloader --no-scripts --no-interaction
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader --no-scripts --no-interaction
 
 # Install Node dependencies
 RUN npm install && npm run build
