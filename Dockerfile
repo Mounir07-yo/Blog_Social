@@ -1,38 +1,27 @@
-# Dockerfile simple pour AREX sur Railway
-FROM php:8.2-apache
+FROM dunglas/frankenphp:php8.2.31-bookworm
 
-# Variables d'environnement
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-ENV COMPOSER_ALLOW_SUPERUSER=1
+WORKDIR /app
 
-# Installation des extensions PHP essentielles
-RUN apt-get update && apt-get install -y \
-    git zip unzip \
-    && docker-php-ext-install pdo pdo_mysql mysqli \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install required PHP extensions including pdo_mysql
+RUN install-php-extensions pdo_mysql curl mbstring openssl
 
-# Installation de Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Configuration Apache pour Laravel
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-RUN a2enmod rewrite
-
-# Copie et installation
-WORKDIR /var/www/html
+# Copy application files
 COPY . .
-RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Configuration Railway MySQL
+# Setup Railway MySQL configuration
 RUN cp config/database-railway.php config/database.php
 
-# Permissions Laravel
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
+# Install composer dependencies
+RUN composer install --optimize-autoloader --no-scripts --no-interaction
 
-# Port d'écoute
-EXPOSE 80
+# Install Node dependencies
+RUN npm install && npm run build
 
-# Commande de démarrage
-CMD ["bash", "-c", "php artisan migrate --force && php artisan db:seed --force && apache2-foreground"]
+# Create storage directories
+RUN mkdir -p storage/framework/{sessions,views,cache,testing} storage/logs bootstrap/cache && chmod -R a+rw storage
+
+# Cache configuration
+RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+
+# Start command
+CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=$PORT
