@@ -1,51 +1,28 @@
-# Dockerfile pour AREX - Laravel sur Render
-FROM php:8.1-apache
+# Dockerfile ULTRA-SIMPLE pour AREX
+# Utilise une image PHP Laravel prête à l'emploi
+FROM webdevops/php-nginx:8.1
 
 # Variables d'environnement
-ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV COMPOSER_NO_INTERACTION=1
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+ENV WEB_DOCUMENT_ROOT=/app/public
+ENV APP_ENV=production
 
-# Installation des dépendances système
-RUN apt-get update && apt-get install -y \
-    git \
-    zip \
-    unzip \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libonig-dev \
-    libxml2-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd
+# Copier l'application
+COPY . /app
 
-# Installation de Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Configuration Apache
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-RUN a2enmod rewrite
-
-# Copie du code
-WORKDIR /var/www/html
-COPY . .
-
-# Installation des dépendances PHP
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Aller dans le répertoire de l'app
+WORKDIR /app
 
 # Configuration PostgreSQL
 RUN cp config/database-postgresql.php config/database.php
 
+# Installation des dépendances Composer
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
 # Permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+RUN chown -R application:application /app \
+    && chmod -R 755 /app/storage \
+    && chmod -R 755 /app/bootstrap/cache
 
 # Script de démarrage
-COPY docker-start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
-
-EXPOSE 80
-
-CMD ["/usr/local/bin/start.sh"]
+COPY docker-entrypoint.sh /opt/docker/provision/entrypoint.d/30-laravel-setup.sh
+RUN chmod +x /opt/docker/provision/entrypoint.d/30-laravel-setup.sh
